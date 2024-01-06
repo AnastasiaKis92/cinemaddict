@@ -1,5 +1,6 @@
 import {createElement} from '../render.js';
 import { filmDate, getTimeFromMinutes, commentDate } from '../helpers.js';
+import CommentsModel from '../model/comments-model.js';
 
 const renderComment = (comment) => {
   const { emotion, text, author, date } = comment;
@@ -136,20 +137,24 @@ const createTemplate = (movie, comments) => {
 };
 
 export default class FilmDetailsView {
-  constructor(film, comment) {
-    this.film = film;
-    this.comment = comment;
-    this.comments = [...this.comment.getComments()];
+  #element;
+  #film;
+  #commentsList;
+  #comments = new CommentsModel();
+
+  constructor(film) {
+    this.#film = film;
+    this.#commentsList = [...this.#comments.comments];
   }
 
-  getTemplate() {
-    return createTemplate(this.film, this.comments);
+  get template() {
+    return createTemplate(this.#film, this.#commentsList);
   }
 
-  getElement () {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     } // Создаем св-во класса // Условие если элемент не был создан ранее
-    return this.element;
+    return this.#element;
   }
 }

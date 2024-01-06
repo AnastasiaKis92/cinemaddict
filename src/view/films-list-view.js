@@ -8,19 +8,23 @@ const createTemplate = (title, extra) => `
 `;
 
 export default class FilmsListView {
+  #title;
+  #extra;
+  #element;
+
   constructor(title, extra) {
-    this.title = title;
-    this.extra = extra;
+    this.#title = title;
+    this.#extra = extra;
   }
 
-  getTemplate() {
-    return createTemplate(this.title, this.extra);
+  get template() {
+    return createTemplate(this.#title, this.#extra);
   }
 
-  getElement () {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     } // Создаем св-во класса // Условие если элемент не был создан ранее
-    return this.element;
+    return this.#element;
   }
 }
